@@ -8,7 +8,7 @@ type Cards = {
   cards: CardInterface[];
 };
 
-export default function handler(
+export default function CardsHandler(
   req: NextApiRequest,
   res: NextApiResponse<Cards>
 ) {

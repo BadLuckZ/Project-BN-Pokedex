@@ -9,7 +9,7 @@ const atma = Atma({
 });
 
 const gaegu = Gaegu({
-  variable: "--font-geist-mono",
+  variable: "--font-gaegu",
   subsets: ["latin"],
   weight: ["300", "400", "700"],
 });
@@ -26,8 +26,42 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${atma.variable} ${gaegu.variable} antialiased`}>
-        {children}
+      <body
+        className={`${atma.variable} ${gaegu.variable} flex items-center justify-center min-h-screen bg-gray-100`}
+      >
+        <div
+          className="flex rounded-3xl"
+          style={{
+            border: "32px solid #474444",
+          }}
+        >
+          {/* Left Border */}
+          <div className="flex items-center justify-center w-16 bg-[#474444]">
+            <img
+              src="/botnoi.svg"
+              alt="Botnoi Image"
+              className="h-auto w-full object-contain -rotate-90 mr-6"
+            />
+          </div>
+
+          {/* Screen */}
+          <div className="w-[1024px] h-[768px] overflow-hidden">{children}</div>
+
+          {/* Right Border */}
+          <div
+            className="flex items-center justify-center w-16"
+            style={{
+              background: "var(--modal-contentbox-shadow)",
+            }}
+          >
+            <button
+              className="w-full h-12 rounded-full ml-6"
+              style={{
+                backgroundColor: "#aeaeae",
+              }}
+            ></button>
+          </div>
+        </div>
       </body>
     </html>
   );

@@ -1,22 +1,25 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --cardbox-shadow: #d5d6dc;
+  --cardbox-shadow-hover: #aeaeae;
+  --card-background: #f3f4f7;
+  --add-button: #7777dc;
+  --leveltube-background: #e4e4e4;
+  --leveltubebox-shadow: #d4d4d4;
+  --leveltubevalue-background: #1a70f3;
+  --bottombar-background: #5656ec;
+  --bottombarbox-shadow: rgba(51, 51, 217, 0.53);
+  --bottombar-text: #ffffff;
+  --modal-outside: rgba(0, 0, 0, 0.4);
+  --modal-contentbox-shadow: #474444;
+  --modal-contentbox-background: #ffffff;
+  --searchbox-border: #e6e6e6;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --font-atma: var(--font-atma);
+  --font-gaegu: var(--font-gaegu);
 }
 
 body {
