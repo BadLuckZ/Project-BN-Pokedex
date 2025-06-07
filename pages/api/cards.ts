@@ -2,7 +2,7 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import _ from "lodash";
 
 import { cards } from "../../mock/cards.json";
-import { CardInterface } from "@/interface/interface";
+import { CardInterface } from "@/utils/interface";
 
 type Cards = {
   cards: CardInterface[];

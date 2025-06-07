@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { CardInterface } from "@/interface/interface";
+import { CardInterface } from "@/utils/interface";
 import {
   calculateHappiness,
   calculateHealth,

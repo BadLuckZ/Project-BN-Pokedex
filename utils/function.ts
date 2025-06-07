@@ -1,4 +1,4 @@
-import { CardInterface } from "@/interface/interface";
+import { CardInterface } from "@/utils/interface";
 
 export async function fetchCards(limit: number): Promise<CardInterface[]> {
   const res = await fetch(`/api/cards?limit=${limit}`);

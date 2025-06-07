@@ -1,6 +1,4 @@
-"use client";
-
-import { CardInterface } from "@/interface/interface";
+import { CardInterface } from "@/utils/interface";
 import Card from "./card";
 
 const CardContainer = ({
