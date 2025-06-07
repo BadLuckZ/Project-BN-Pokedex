@@ -8,7 +8,7 @@ export default function CardsPage() {
       <h1 className="text-4xl font-bold pt-4 font-atma">My Pokédex</h1>
 
       {/* Card Container */}
-      <CardContainer cards={sample_cards} />
+      <CardContainer command={"rm"} cards={sample_cards} />
 
       {/* Add Button */}
       <div

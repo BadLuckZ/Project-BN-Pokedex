@@ -3,7 +3,13 @@
 import { CardInterface } from "@/interface/interface";
 import Card from "./card";
 
-const CardContainer = ({ cards }: { cards: CardInterface[] }) => {
+const CardContainer = ({
+  command,
+  cards,
+}: {
+  command: string;
+  cards: CardInterface[];
+}) => {
   return (
     <div className="grid grid-cols-2 gap-4 w-full h-full min-h-0 overflow-y-auto m-6">
       {cards.map((card) => {
