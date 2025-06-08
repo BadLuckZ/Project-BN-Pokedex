@@ -1,13 +1,25 @@
 import { sample_cards } from "@/mock/cards";
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import CardContainer from "./cardcontainer";
+import { CardInterface } from "@/utils/interface";
 
 const Popup = ({ onClose }: { onClose: () => void }) => {
   const [query, setQuery] = useState("");
-  const handleSearch = () => {
-    console.log(query);
-  };
+  const [filteredCards, setFilteredCards] =
+    useState<CardInterface[]>(sample_cards);
+
+  useEffect(() => {
+    if (query) {
+      setFilteredCards(
+        sample_cards.filter((card) => {
+          return card.name.toLowerCase().includes(query.toLowerCase());
+        })
+      );
+    } else {
+      setFilteredCards(sample_cards);
+    }
+  }, [query]);
 
   return (
     <div
@@ -20,6 +32,7 @@ const Popup = ({ onClose }: { onClose: () => void }) => {
         }
       }}
     >
+      {/* Main Container */}
       <div
         className="min-w-fit w-[900px] h-[90%] rounded-xl shadow-lg flex flex-col"
         style={{
@@ -35,23 +48,17 @@ const Popup = ({ onClose }: { onClose: () => void }) => {
             className="w-full h-10 text-xl font-atma font-semibold
                        focus:outline-none focus:border-0"
             placeholder="Find pokemon"
+            value={query}
             onChange={(e) => {
-              setQuery(e.target.value.toLowerCase());
+              setQuery(e.target.value.trim());
             }}
           />
-          <Image
-            src={"/search.png"}
-            alt="Search"
-            width={24}
-            height={24}
-            className="cursor-pointer"
-            onClick={handleSearch}
-          />
+          <Image src={"/search.png"} alt="Search" width={24} height={24} />
         </div>
 
         {/* Cards */}
-        <div className="grid grid-cols-1 gap-4 w-full h-full min-h-0 overflow-y-auto">
-          <CardContainer command="add" cards={sample_cards} />
+        <div className="grid grid-cols-1 gap-4 w-full overflow-y-auto">
+          <CardContainer command="add" cards={filteredCards} />
         </div>
       </div>
     </div>
