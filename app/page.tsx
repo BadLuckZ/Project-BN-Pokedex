@@ -15,9 +15,11 @@ export default function CardsPage() {
       <h1 className="text-4xl font-bold pt-4 font-atma">My Pokédex</h1>
 
       {/* Card Container */}
-      <CardContainer command={"rm"} cards={sample_cards} />
+      <div className="grid grid-cols-2 gap-4 w-full h-full min-h-0 overflow-y-auto m-6">
+        <CardContainer command={"rm"} cards={sample_cards} />
+      </div>
 
-      {/* Add Button */}
+      {/* Button */}
       <div
         className="absolute w-full h-10 flex flex-grow justify-center mt-6 bottom-0 cursor-pointer"
         style={{ backgroundColor: "var(--add-button)" }}

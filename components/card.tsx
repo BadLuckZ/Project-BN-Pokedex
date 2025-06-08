@@ -11,8 +11,11 @@ import PowerBar from "./powerbar";
 import HappinessBar from "./happinessbar";
 import { MAX_HEALTH, MAX_STRENGTH, MAX_WEAKNESS } from "@/utils/const";
 
-const Card = ({ card }: { card: CardInterface }) => {
+const Card = ({ card, command }: { card: CardInterface; command: string }) => {
   const [isHovered, setIsHovered] = useState(false);
+
+  const handleAddCard = () => console.log(`Add ${card.name}`);
+  const handleRemoveCard = () => console.log(`Remove ${card.name}`);
 
   return (
     <div
@@ -26,16 +29,27 @@ const Card = ({ card }: { card: CardInterface }) => {
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      {/* X Button */}
-      {isHovered && (
-        <button
-          className="absolute top-2 right-2 text-4xl font-atma font-bold cursor-pointer"
-          onClick={() => console.log(`Remove ${card.name}`)}
-          style={{ color: "var(--leveltubevalue-background)" }}
-        >
-          ×
-        </button>
-      )}
+      {/* X or Add Button */}
+      {isHovered &&
+        (command == "rm" ? (
+          <button
+            className="absolute top-2 right-2 text-4xl font-atma font-bold cursor-pointer"
+            onClick={handleRemoveCard}
+            style={{ color: "var(--leveltubevalue-background)" }}
+          >
+            ×
+          </button>
+        ) : command == "add" ? (
+          <button
+            className="absolute top-2 right-2 text-2xl font-atma font-semibold cursor-pointer"
+            onClick={handleAddCard}
+            style={{ color: "var(--leveltubevalue-background)" }}
+          >
+            Add
+          </button>
+        ) : (
+          <></>
+        ))}
 
       {/* Image */}
       <Image
