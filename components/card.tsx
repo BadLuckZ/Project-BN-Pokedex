@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { CardInterface } from "@/utils/interface";
 import {
   calculateHappiness,
@@ -20,45 +19,32 @@ const Card = ({
   command: string;
   toggleFavourite: (id: string) => void;
 }) => {
-  const [isHovered, setIsHovered] = useState(false);
-
   return (
     <div
-      className="relative w-full h-fit p-4 flex gap-4 rounded-xl transition-shadow duration-200 hover:shadow-lg"
+      className="relative w-full h-fit p-4 flex gap-4 rounded-xl transition-shadow duration-200 hover:shadow-lg group"
       style={{
         backgroundColor: "var(--card-background)",
-        boxShadow: isHovered
-          ? "0 6px 12px var(--cardbox-shadow-hover)"
-          : "0 4px 8px var(--cardbox-shadow)",
+        boxShadow: "0 4px 8px var(--cardbox-shadow)",
       }}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
     >
-      {/* X or Add Button */}
-      {isHovered &&
-        (command == "rm" ? (
-          <button
-            className="absolute top-2 right-2 text-4xl font-atma font-bold cursor-pointer"
-            onClick={() => {
-              toggleFavourite(card.id);
-            }}
-            style={{ color: "var(--leveltubevalue-background)" }}
-          >
-            ×
-          </button>
-        ) : command == "add" ? (
-          <button
-            className="absolute top-2 right-2 text-2xl font-atma font-semibold cursor-pointer"
-            onClick={() => {
-              toggleFavourite(card.id);
-            }}
-            style={{ color: "var(--leveltubevalue-background)" }}
-          >
-            Add
-          </button>
-        ) : (
-          <></>
-        ))}
+      {/* Action Button (X or Add) */}
+      {command === "rm" ? (
+        <button
+          onClick={() => toggleFavourite(card.id)}
+          className="absolute top-2 right-2 text-4xl font-atma cursor-pointer font-bold opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none group-hover:pointer-events-auto"
+          style={{ color: "var(--leveltubevalue-background)" }}
+        >
+          ×
+        </button>
+      ) : command === "add" ? (
+        <button
+          onClick={() => toggleFavourite(card.id)}
+          className="absolute top-2 right-2 text-2xl font-atma cursor-pointer font-semibold opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none group-hover:pointer-events-auto"
+          style={{ color: "var(--leveltubevalue-background)" }}
+        >
+          Add
+        </button>
+      ) : null}
 
       {/* Image */}
       <Image

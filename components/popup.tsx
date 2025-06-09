@@ -81,9 +81,7 @@ const Popup = ({
             </p>
           ) : filteredCards.length === 0 ? (
             <p className="text-center font-bold text-2xl font-gaegu">
-              {query
-                ? "No cards match your search..."
-                : "All cards have been added to favorites..."}
+              {query ? "No cards match your search..." : "No cards here..."}
             </p>
           ) : (
             <CardContainer
