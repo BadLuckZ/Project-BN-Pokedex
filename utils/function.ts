@@ -1,7 +1,13 @@
 import { CardInterface } from "@/utils/interface";
 
-export async function fetchCards(limit: number): Promise<CardInterface[]> {
-  const res = await fetch(`/api/cards?limit=${limit}`);
+export async function fetchCards(
+  cardName: string,
+  cardType: string,
+  limit: number
+): Promise<CardInterface[]> {
+  const res = await fetch(
+    `/api/cards?name=${cardName}&type=${cardType}&limit=${limit}`
+  );
   if (!res.ok) {
     throw new Error(`Failed to fetch cards: ${res.status}`);
   }

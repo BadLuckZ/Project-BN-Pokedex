@@ -1,25 +1,46 @@
-import { sample_cards } from "@/mock/cards";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import CardContainer from "./cardcontainer";
 import { CardInterface } from "@/utils/interface";
+import { fetchCards } from "@/utils/function";
 
-const Popup = ({ onClose }: { onClose: () => void }) => {
+const Popup = ({
+  favouriteCards,
+  setNotFavouriteCards,
+  onClose,
+  toggleFavourite,
+}: {
+  favouriteCards: CardInterface[];
+  setNotFavouriteCards: (cards: CardInterface[]) => void;
+  onClose: () => void;
+  toggleFavourite: (id: string) => void;
+}) => {
   const [query, setQuery] = useState("");
-  const [filteredCards, setFilteredCards] =
-    useState<CardInterface[]>(sample_cards);
+  const [filteredCards, setFilteredCards] = useState<CardInterface[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    if (query) {
-      setFilteredCards(
-        sample_cards.filter((card) => {
-          return card.name.toLowerCase().includes(query.toLowerCase());
-        })
-      );
-    } else {
-      setFilteredCards(sample_cards);
-    }
-  }, [query]);
+    const fetchAndFilterCards = async () => {
+      setIsLoading(true);
+      try {
+        const allCards = await fetchCards(query, "", 20);
+
+        const favouriteIds = favouriteCards.map((card) => card.id);
+        const availableCards = allCards.filter(
+          (card: CardInterface) => !favouriteIds.includes(card.id)
+        );
+
+        setFilteredCards(availableCards);
+        setNotFavouriteCards(availableCards);
+      } catch (error) {
+        setFilteredCards([]);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchAndFilterCards();
+  }, [query, favouriteCards]);
 
   return (
     <div
@@ -32,7 +53,6 @@ const Popup = ({ onClose }: { onClose: () => void }) => {
         }
       }}
     >
-      {/* Main Container */}
       <div
         className="min-w-fit w-[900px] h-[90%] rounded-xl shadow-lg flex flex-col"
         style={{
@@ -41,24 +61,37 @@ const Popup = ({ onClose }: { onClose: () => void }) => {
         }}
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Search */}
-        <div className="relative flex items-center border rounded-lg px-2">
+        {/* Search Bar */}
+        <div className="relative flex items-center border rounded-lg px-2 m-4">
           <input
             type="text"
-            className="w-full h-10 text-xl font-atma font-semibold
-                       focus:outline-none focus:border-0"
-            placeholder="Find pokemon"
+            className="w-full h-10 text-xl font-atma font-semibold focus:outline-none bg-transparent"
+            placeholder="Find Pokémon"
             value={query}
-            onChange={(e) => {
-              setQuery(e.target.value.trim());
-            }}
+            onChange={(e) => setQuery(e.target.value)}
           />
-          <Image src={"/search.png"} alt="Search" width={24} height={24} />
+          <Image src="/search.png" alt="Search" width={24} height={24} />
         </div>
 
         {/* Cards */}
-        <div className="grid grid-cols-1 gap-4 w-full overflow-y-auto">
-          <CardContainer command="add" cards={filteredCards} />
+        <div className="grid grid-cols-1 gap-4 w-full overflow-y-auto p-4 flex-1">
+          {isLoading ? (
+            <p className="text-center font-bold text-2xl font-gaegu">
+              Loading...
+            </p>
+          ) : filteredCards.length === 0 ? (
+            <p className="text-center font-bold text-2xl font-gaegu">
+              {query
+                ? "No cards match your search..."
+                : "All cards have been added to favorites..."}
+            </p>
+          ) : (
+            <CardContainer
+              command="add"
+              cards={filteredCards}
+              toggleFavourite={toggleFavourite}
+            />
+          )}
         </div>
       </div>
     </div>

@@ -11,11 +11,16 @@ import PowerBar from "./powerbar";
 import HappinessBar from "./happinessbar";
 import { MAX_HEALTH, MAX_STRENGTH, MAX_WEAKNESS } from "@/utils/const";
 
-const Card = ({ card, command }: { card: CardInterface; command: string }) => {
+const Card = ({
+  card,
+  command,
+  toggleFavourite,
+}: {
+  card: CardInterface;
+  command: string;
+  toggleFavourite: (id: string) => void;
+}) => {
   const [isHovered, setIsHovered] = useState(false);
-
-  const handleAddCard = () => console.log(`Add ${card.name}`);
-  const handleRemoveCard = () => console.log(`Remove ${card.name}`);
 
   return (
     <div
@@ -34,7 +39,9 @@ const Card = ({ card, command }: { card: CardInterface; command: string }) => {
         (command == "rm" ? (
           <button
             className="absolute top-2 right-2 text-4xl font-atma font-bold cursor-pointer"
-            onClick={handleRemoveCard}
+            onClick={() => {
+              toggleFavourite(card.id);
+            }}
             style={{ color: "var(--leveltubevalue-background)" }}
           >
             ×
@@ -42,7 +49,9 @@ const Card = ({ card, command }: { card: CardInterface; command: string }) => {
         ) : command == "add" ? (
           <button
             className="absolute top-2 right-2 text-2xl font-atma font-semibold cursor-pointer"
-            onClick={handleAddCard}
+            onClick={() => {
+              toggleFavourite(card.id);
+            }}
             style={{ color: "var(--leveltubevalue-background)" }}
           >
             Add

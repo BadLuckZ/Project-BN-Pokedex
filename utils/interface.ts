@@ -41,4 +41,5 @@ export interface CardInterface {
   resistances?: ElementInterface[];
   weaknesses?: ElementInterface[];
   type: string;
+  favourite?: boolean;
 }
