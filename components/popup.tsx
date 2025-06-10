@@ -1,20 +1,13 @@
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import CardContainer from "./cardcontainer";
 import { CardInterface } from "@/utils/interface";
 import { fetchCards } from "@/utils/function";
+import CardContext from "@/context/cardcontext";
 
-const Popup = ({
-  favouriteCards,
-  setNotFavouriteCards,
-  onClose,
-  toggleFavourite,
-}: {
-  favouriteCards: CardInterface[];
-  setNotFavouriteCards: (cards: CardInterface[]) => void;
-  onClose: () => void;
-  toggleFavourite: (id: string) => void;
-}) => {
+const Popup = ({ onClose }: { onClose: () => void }) => {
+  const { favouriteCards, setNotFavouriteCards } = useContext(CardContext)!;
+
   const [query, setQuery] = useState("");
   const [filteredCards, setFilteredCards] = useState<CardInterface[]>([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -84,11 +77,7 @@ const Popup = ({
               {query ? "No cards match your search..." : "No cards here..."}
             </p>
           ) : (
-            <CardContainer
-              command="add"
-              cards={filteredCards}
-              toggleFavourite={toggleFavourite}
-            />
+            <CardContainer command="add" cards={filteredCards} />
           )}
         </div>
       </div>

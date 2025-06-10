@@ -9,16 +9,16 @@ import Image from "next/image";
 import PowerBar from "./powerbar";
 import HappinessBar from "./happinessbar";
 import { MAX_HEALTH, MAX_STRENGTH, MAX_WEAKNESS } from "@/utils/const";
+import { useContext } from "react";
+import CardContext from "@/context/cardcontext";
 
-const Card = ({
-  card,
-  command,
-  toggleFavourite,
-}: {
-  card: CardInterface;
-  command: string;
-  toggleFavourite: (id: string) => void;
-}) => {
+const Card = ({ card, command }: { card: CardInterface; command: string }) => {
+  const context = useContext(CardContext);
+  if (!context)
+    throw new Error("Card must be used within a CardContext.Provider");
+
+  const { toggleFavourite } = context;
+
   return (
     <div
       className="relative w-full h-fit p-4 flex gap-4 rounded-xl transition-shadow duration-200 hover:shadow-lg group"
