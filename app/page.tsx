@@ -4,7 +4,7 @@ import CardContext from "@/context/cardcontext";
 import CardContainer from "@/components/cardcontainer";
 import Popup from "@/components/popup";
 import { CardInterface } from "@/utils/interface";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function CardsPage() {
   const [isShowPopup, setShowPopup] = useState(false);
@@ -12,6 +12,7 @@ export default function CardsPage() {
   const [notFavouriteCards, setNotFavouriteCards] = useState<CardInterface[]>(
     []
   );
+  const [hasLoaded, setHasLoaded] = useState(false);
 
   const toggleFavourite = (id: string) => {
     const isCurrentlyFav = favouriteCards.some((c) => c.id === id);
@@ -34,6 +35,37 @@ export default function CardsPage() {
     }
   };
 
+  // Load Favourite Cards
+  useEffect(() => {
+    const loadCards = () => {
+      try {
+        const cards = localStorage.getItem("favouriteCards");
+        if (cards) {
+          const parsedCards = JSON.parse(cards);
+          setFavouriteCards(parsedCards);
+        }
+      } catch (error) {
+        console.error("Error loading favourite cards:", error);
+        setFavouriteCards([]);
+      } finally {
+        setHasLoaded(true);
+      }
+    };
+
+    loadCards();
+  }, []);
+
+  // Save Favourite Cards
+  useEffect(() => {
+    if (hasLoaded) {
+      try {
+        localStorage.setItem("favouriteCards", JSON.stringify(favouriteCards));
+      } catch (error) {
+        console.error("Error saving favourite cards:", error);
+      }
+    }
+  }, [favouriteCards, hasLoaded]);
+
   return (
     <CardContext.Provider
       value={{
@@ -49,14 +81,20 @@ export default function CardsPage() {
 
         <h1 className="text-4xl font-bold pt-4 font-atma">My Pokédex</h1>
 
-        {favouriteCards.length === 0 ? (
-          <p className="text-center font-bold text-2xl font-gaegu m-6">
-            You haven't added any cards to your favourite...
-          </p>
+        {hasLoaded ? (
+          favouriteCards.length === 0 ? (
+            <p className="text-center font-bold text-2xl font-gaegu m-6">
+              You haven't added any cards to your favourite...
+            </p>
+          ) : (
+            <div className="grid grid-cols-2 gap-4 w-full h-fit min-h-0 overflow-y-auto m-6">
+              <CardContainer command={"rm"} cards={favouriteCards} />
+            </div>
+          )
         ) : (
-          <div className="grid grid-cols-2 gap-4 w-full h-fit min-h-0 overflow-y-auto m-6">
-            <CardContainer command={"rm"} cards={favouriteCards} />
-          </div>
+          <p className="text-center font-bold text-2xl font-gaegu m-6">
+            Loading...
+          </p>
         )}
 
         <div

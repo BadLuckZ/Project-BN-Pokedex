@@ -47,7 +47,7 @@ const Popup = ({ onClose }: { onClose: () => void }) => {
       }}
     >
       <div
-        className="min-w-fit w-[900px] h-[90%] rounded-xl shadow-lg flex flex-col"
+        className="min-w-fit w-[900px] h-[90%] rounded-xl shadow-lg flex flex-col p-4"
         style={{
           backgroundColor: "var(--modal-contentbox-background)",
           boxShadow: `0 4px 10px var(--modal-contentbox-shadow)`,
@@ -67,14 +67,14 @@ const Popup = ({ onClose }: { onClose: () => void }) => {
         </div>
 
         {/* Cards */}
-        <div className="grid grid-cols-1 gap-4 w-full overflow-y-auto p-4 flex-1">
+        <div className="grid grid-cols-1 gap-4 w-full overflow-y-auto">
           {isLoading ? (
             <p className="text-center font-bold text-2xl font-gaegu">
               Loading...
             </p>
           ) : filteredCards.length === 0 ? (
             <p className="text-center font-bold text-2xl font-gaegu">
-              {query ? "No cards match your search..." : "No cards here..."}
+              No cards here...
             </p>
           ) : (
             <CardContainer command="add" cards={filteredCards} />

@@ -48,3 +48,8 @@ export function calculateHappiness(card: CardInterface) {
 
   return Math.max(0, Math.floor(raw));
 }
+
+export function loadFavouriteCards(): CardInterface[] {
+  const data = localStorage.getItem("favouriteCards");
+  return data ? JSON.parse(data) : [];
+}
